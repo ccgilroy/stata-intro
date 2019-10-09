@@ -1,0 +1,265 @@
+---
+title: "Introduction to Stata"
+subtitle: "SOC 504<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
+author: "Connor Gilroy (TA)"
+institute: "University of Washington"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts]
+    lib_dir: libs
+    nature:
+      highlightStyle: tomorrow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+<style>
+.remark-inline-code {
+  background: #F5F5F5; 
+}
+</style>
+
+# What is Stata?
+
+<br>
+
+.font140[
+- a software package for statistics
+
+- primarily based on typed commands
+
+- proprietary (i.e. not free), with corporate support
+
+- extensible with community add-ons
+]
+
+---
+
+# Statistical programming
+
+Statistical software exists on a continuum: 
+
+.pull-left.center[
+More "point-and-click":
+
+Excel  
+Tableau  
+SPSS  
+SAS  
+...
+
+]
+
+.pull-right.center[
+Programming languages:
+
+R  
+Python  
+...
+
+]
+
+.center.font150[Stata falls in the middle]
+
+--
+<br>
+You could use it like a point-and-click program ... but you shouldn't. Instead, write scripts with all of your commands in a "do-file."
+
+Why? This produces a **clear, reproducible record** of your research.
+
+---
+# Challenges
+
+<br>
+
+.font140[
+**The learning curve can be steep**  
+This may not be how you're used to interacting with a computer. Trust that you'll build confidence and good coding habits with time!
+
+**Syntax and spelling count!**  
+Computers aren't humans, and they'll do exactly what you tell them to ... even if that isn't what you really want
+]
+
+(A quirk: Stata commands can be *abbreviated*. There are some conventional abbreviations, but remember that you're writing code that you want humans to be able to read.)
+
+---
+
+# Tasks in statistical analysis
+
+.font120[Let's think abstractly about common tasks we'll need to do]
+
+For instance:
+
+--
+
+- get data into the programming environment
+
+--
+
+- modify variables or create new ones, filter rows of observations
+
+--
+
+- look at variables and calculate descriptive statistics
+
+--
+
+- calculate inferential statistics
+
+--
+
+- visualize variables and models
+
+--
+
+- save output
+
+
+---
+# Stata syntax
+
+<br><br><br><br>
+
+All Stata statements have the same format:
+
+.font150[
+```
+command [varlist] [maybe some other stuff] [, options]
+```
+]
+
+(I'm leaving a few things out—you can see the rest [here](https://geocenter.github.io/StataTraining/pdf/StataCheatsheet_processing_15_June_2016_TE-REV.pdf) if you're curious)
+
+---
+# Basic commands
+
+### Load data
+
+Load a .dta file with `use`: 
+
+```stata
+use "directory/filename"
+```
+
+(For built-in data sets, the command is `sysuse` instead)
+
+### Create variables
+
+Create new variables with `generate` (for fancy extensions, use `egen`):
+
+```stata
+gen x=0
+gen logGDPPerCapita = ln(GDP/Population)
+```
+
+To overwrite a variable, instead use `replace`: 
+
+```stata
+replace x=5
+replace male = 1 if gender == 2
+```
+---
+# Basic commands
+
+### Filter observations
+
+Filter with `if` (note the double equals sign!)
+
+```stata
+replace y = 2 if x == 1
+```
+
+You can do this with regressions to model a subset of data:
+
+```stata
+reg salary jobhrs educ, if male == 1
+```
+
+---
+
+# Basic commands
+
+### Descriptives
+
+Descriptive statistics with `summarize`: 
+
+```stata
+sum age educ maritalstatus
+```
+
+Frequency tables or crosstabs with `tabulate`: 
+
+```stata
+tab educ
+tab educ sex
+```
+
+### Regression
+
+Bivariate or multivariate regression with `regress`: 
+
+```stata
+reg depvar indep1 indep2 indep3 
+reg salary jobhrs educ
+```
+
+---
+# Basic commands
+
+### Visualization
+
+```stata
+graph pie, over(maritalstatus)
+```
+
+```stata
+twoway scatter salary jobhrs
+```
+
+### Export
+
+```stata
+graph save file_name
+```
+
+---
+
+# Advice
+
+.font120[
+**Use a `fixed-width` (`monospace`) font** to format code and output in your homework (Courier New is one option in Word)
+
+**Get access to a remote environment** like the CSDE server
+
+**Get comfortable making mistakes** and troubleshooting errors!  
+You have many resources for solving problems as they come up: 
+
+- built-in documentation with `help`, e.g. `help regress`
+- Google and Stack Overflow
+- each other, the TA, and the professor
+]
+
+---
+
+# Resources
+
+.font120[
+The UCLA Institute for Digital Research & Education:  
+https://stats.idre.ucla.edu/stata/
+
+Chuck Lanfear's page of Stata-R equivalencies:  
+https://clanfear.github.io/Stata_R_Equivalency/docs/r_stata_commands.html
+]
+
+---
+
+# Let's do it!
+
+<br><br><br><br>
+
+.font140[
+Go to "Modules" on the Canvas course page and download `new_FIRST_SESSION_504.do` from the "Stata stuff" module.
+
+We'll open Stata and review it together.
+]
